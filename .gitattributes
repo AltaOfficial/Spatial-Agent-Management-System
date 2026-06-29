@@ -1,0 +1,20 @@
+# Treat binary files correctly — no line-ending mangling
+*.blend   binary
+*.glb     binary
+*.gltf    binary
+*.png     binary
+*.jpg     binary
+*.jpeg    binary
+*.wav     binary
+*.ogg     binary
+*.mp3     binary
+*.import  text eol=lf
+
+# Godot scenes and scripts — force LF
+*.tscn    text eol=lf
+*.gd      text eol=lf
+*.godot   text eol=lf
+
+# Sidecar
+*.ts      text eol=lf
+*.json    text eol=lf

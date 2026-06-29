@@ -1,0 +1,5 @@
+
+# Blender temp files
+blender/*.blend1
+blender/*.blend2
+blender/**/*.blend1
