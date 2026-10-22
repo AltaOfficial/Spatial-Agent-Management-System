@@ -1,35 +1,31 @@
-import Versions from './components/Versions'
-import electronLogo from './assets/electron.svg'
+import { Canvas } from '@react-three/fiber';
+import { Grid, OrbitControls, Stats } from '@react-three/drei';
+import { useState } from 'react';
+import { RandomComponent } from './components/RandomComponent';
 
 function App(): React.JSX.Element {
-  const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
+  const [colorBool, setColor] = useState(true);
 
   return (
-    <>
-      <img alt="logo" className="logo" src={electronLogo} />
-      <div className="creator">Powered by electron-vite</div>
-      <div className="text">
-        Build an Electron app with <span className="react">React</span>
-        &nbsp;and <span className="ts">TypeScript</span>
-      </div>
-      <p className="tip">
-        Please try pressing <code>F12</code> to open the devTool
-      </p>
-      <div className="actions">
-        <div className="action">
-          <a href="https://electron-vite.org/" target="_blank" rel="noreferrer">
-            Documentation
-          </a>
-        </div>
-        <div className="action">
-          <a target="_blank" rel="noreferrer" onClick={ipcHandle}>
-            Send IPC
-          </a>
-        </div>
-      </div>
-      <Versions></Versions>
-    </>
-  )
+    <div>
+      <RandomComponent className={'z-10 absolute'} />
+      <Canvas className="h-screen!">
+        <ambientLight intensity={1} />
+        <Grid infiniteGrid={true} sectionColor={'white'} />
+        <mesh
+          onClick={() => {
+            setColor(!colorBool);
+          }}
+        >
+          <sphereGeometry />
+          <meshStandardMaterial color={colorBool ? 'hotpink' : 'orange'} />
+        </mesh>
+
+        {/* <Stats /> */}
+        <OrbitControls makeDefault />
+      </Canvas>
+    </div>
+  );
 }
 
-export default App
+export default App;
