@@ -1,5 +1,5 @@
 import { Canvas } from '@react-three/fiber';
-import { Grid, OrbitControls, Stats } from '@react-three/drei';
+import { Grid, OrbitControls } from '@react-three/drei';
 import { useState } from 'react';
 import { RandomComponent } from './components/RandomComponent';
 
