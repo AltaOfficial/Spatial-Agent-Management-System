@@ -18,35 +18,46 @@ This file is the top of a map. Read the overview, then follow a glossary link on
 
 Early scaffold. The pieces exist but are not connected yet.
 
-| Folder | What's there now |
-| --- | --- |
-| `app/` | Electron desktop client showing a test 3D scene: an infinite grid, a sphere that changes colour when clicked, an orbit camera, and a "New Building" button that does nothing yet. |
-| `backend/` | NestJS starter. One `GET /` route that returns "Hello World!" on port 3000. The app does not call it yet. |
-| `blender/` | Reserved for 3D source models. Empty. |
-| `docs/` | The deeper levels of this map. Empty so far. |
+| Folder     | What's there now                                                                                                                                                                  |
+| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `app/`     | Electron desktop client showing a test 3D scene: an infinite grid, a sphere that changes colour when clicked, an orbit camera, and a "New Building" button that does nothing yet. |
+| `backend/` | NestJS starter. One `GET /` route that returns "Hello World!" on port 3000. The app does not call it yet.                                                                         |
+| `blender/` | Reserved for 3D source models. Empty.                                                                                                                                             |
+| `docs/`    | The deeper levels of this map. Empty so far.                                                                                                                                      |
 
-`app/` and `backend/` are separate npm packages, each with its own `node_modules` and lockfile. There is no root `package.json`, so run commands from inside the package folder.
+The repo is a pnpm workspace. The root `package.json` is private and only holds workspace scripts, and `pnpm-workspace.yaml` lists the packages: `app/`, `backend/` and everything in `packages/` (`packages/shared/` is a placeholder with no `package.json` yet). Install once from the root with `pnpm install`, which writes the single root `pnpm-lock.yaml`. `app/` and `backend/` still have leftover `package-lock.json` files from before the move. They are stale, so don't use npm and don't update them.
 
 ## Commands
 
-From `app/`:
+Use pnpm, not npm.
 
-| Command | What it does |
-| --- | --- |
-| `npm run dev` | Start the app with hot reload |
-| `npm run build` | Typecheck, then build |
-| `npm run build:win` | Build a Windows installer |
-| `npm run typecheck` | Typecheck the main/preload and renderer code |
-| `npm run lint` / `npm run format` | ESLint / Prettier |
-| `npm run storybook` | Start Storybook on port 6006 |
-| `npx vitest` | Run every story as a test in headless Chromium |
+From the repo root:
 
-From `backend/`:
+| Command                         | What it does                                                                                     |
+| ------------------------------- | ------------------------------------------------------------------------------------------------ |
+| `pnpm install`                  | Install every package in the workspace                                                           |
+| `pnpm build`                    | Run `build` in each package under `packages/` only. It does not build `app/` or `backend/`.      |
+| `pnpm dev`                      | Run `dev` in each package under `packages/` in parallel. It does not start `app/` or `backend/`. |
+| `pnpm --filter <name> <script>` | Run a script in one package, for example `pnpm --filter sams dev`                                |
 
-| Command | What it does |
-| --- | --- |
-| `npm run start:dev` | Start the server in watch mode (port 3000, or `PORT`) |
-| `npm test` / `npm run test:e2e` | Jest unit tests / end-to-end tests |
+From `app/` (package name `sams`, or use `pnpm --filter sams`):
+
+| Command                     | What it does                                   |
+| --------------------------- | ---------------------------------------------- |
+| `pnpm dev`                  | Start the app with hot reload                  |
+| `pnpm build`                | Typecheck, then build                          |
+| `pnpm build:win`            | Build a Windows installer                      |
+| `pnpm typecheck`            | Typecheck the main/preload and renderer code   |
+| `pnpm lint` / `pnpm format` | ESLint / Prettier                              |
+| `pnpm storybook`            | Start Storybook on port 6006                   |
+| `pnpm exec vitest`          | Run every story as a test in headless Chromium |
+
+From `backend/` (package name `backend`, or use `pnpm --filter backend`):
+
+| Command                       | What it does                                          |
+| ----------------------------- | ----------------------------------------------------- |
+| `pnpm start:dev`              | Start the server in watch mode (port 3000, or `PORT`) |
+| `pnpm test` / `pnpm test:e2e` | Jest unit tests / end-to-end tests                    |
 
 ## Glossary
 
