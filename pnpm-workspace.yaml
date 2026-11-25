@@ -1,0 +1,17 @@
+packages:
+  - app
+  - backend
+  - packages/*
+
+allowBuilds:
+  esbuild: true
+  pnpm: true
+permissions:
+  "@parcel/watcher":
+    build: true
+  "@tanstack/react-router":
+    skills: false
+  electron:
+    build: true
+  electron-winstaller:
+    build: true

@@ -1,3 +1,27 @@
+# dependencies
+node_modules
+
+# secrets
+.env
+.env.*
+!.env.example
+
 # OS
 .DS_Store
 Thumbs.db
+
+# editors
+.vscode/
+.idea/
+
+# logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# build and test output, wherever it appears
+dist
+out
+coverage
+storybook-static
+.eslintcache
