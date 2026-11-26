@@ -4,7 +4,7 @@
   "description": "",
   "author": "AltaOfficial",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "AGPL-3.0-only",
   "scripts": {
     "dev:app": "pnpm --filter sams run dev",
     "dev:backend": "pnpm --filter backend run start:dev",
