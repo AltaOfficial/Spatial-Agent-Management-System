@@ -1,0 +1,21 @@
+{
+  "name": "spatial-agent-management-system",
+  "version": "0.0.1",
+  "description": "",
+  "author": "AltaOfficial",
+  "private": true,
+  "license": "AGPL-3.0-only",
+  "scripts": {
+    "dev:app": "pnpm --filter sams run dev",
+    "dev:backend": "pnpm --filter backend run start:dev",
+    "storybook": "pnpm --filter @sams/ui run storybook",
+    "build": "pnpm -r --filter='./packages/*' run build",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "pnpm -r run lint",
+    "typecheck": "pnpm -r run typecheck"
+  },
+  "devDependencies": {
+    "prettier": "^3.10.1"
+  }
+}
