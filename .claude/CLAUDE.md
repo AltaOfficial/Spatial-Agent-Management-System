@@ -18,15 +18,17 @@ This file is the top of a map. Read the overview, then follow a glossary link on
 
 Early scaffold. The pieces exist but are not connected yet.
 
-| Folder          | What's there now                                                                                                                                                                  |
-| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `apps/desktop/` | Electron desktop client showing a test 3D scene: an infinite grid, a sphere that changes colour when clicked, an orbit camera, and a "New Building" button that does nothing yet. |
-| `apps/server/`  | NestJS starter. One `GET /` route that returns "Hello World!" on port 3000. The app does not call it yet.                                                                         |
-| `packages/ui/`  | Storybook workshop (`@sams/ui`) for overlay UI components. Starter stories only.                                                                                                  |
-| `blender/`      | Reserved for 3D source models. Empty.                                                                                                                                             |
-| `docs/`         | The deeper levels of this map. Empty so far.                                                                                                                                      |
+| Folder           | What's there now                                                                                                                                                                  |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `apps/desktop/`  | Electron desktop client showing a test 3D scene: an infinite grid, a sphere that changes colour when clicked, an orbit camera, and a "New Building" button that does nothing yet. |
+| `apps/server/`   | SAMS server. NestJS 11 starter: one `GET /` route that returns "Hello World!" on port 8000. The app does not call it yet.                                                         |
+| `apps/platform/` | Platform API, the central service behind the extension marketplace. NestJS 11 starter (same setup as `apps/server/`) on port 8001.                                                |
+| `apps/web/`      | Website. Next.js 16 + Tailwind starter.                                                                                                                                           |
+| `packages/ui/`   | Storybook workshop (`@sams/ui`) for overlay UI components. Starter stories only.                                                                                                  |
+| `blender/`       | Reserved for 3D source models. Empty.                                                                                                                                             |
+| `docs/`          | The deeper levels of this map. Empty so far.                                                                                                                                      |
 
-The repo is a pnpm workspace. The root `package.json` is private and only holds workspace scripts, and `pnpm-workspace.yaml` lists the packages: everything in `apps/` (`apps/desktop/`, `apps/server/`) and everything in `packages/` (`packages/shared/` is a placeholder with no `package.json` yet). Install once from the root with `pnpm install`, which writes the single root `pnpm-lock.yaml`. Don't use npm.
+The repo is a pnpm workspace. The root `package.json` is private and only holds workspace scripts, and `pnpm-workspace.yaml` lists the packages: everything in `apps/` (`apps/desktop/`, `apps/server/`, `apps/platform/`, `apps/web/`) and everything in `packages/` (`packages/shared/` is a placeholder with no `package.json` yet). Install once from the root with `pnpm install`, which writes the single root `pnpm-lock.yaml`. Don't use npm.
 
 ## Commands
 
@@ -34,17 +36,19 @@ Use pnpm, not npm.
 
 From the repo root:
 
-| Command                         | What it does                                                                                                  |
-| ------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| `pnpm install`                  | Install every package in the workspace                                                                        |
-| `pnpm build`                    | Run `build` in each package under `packages/` only. It does not build `apps/desktop/` or `apps/server/`.      |
-| `pnpm dev`                      | Run `dev` in each package under `packages/` in parallel. It does not start `apps/desktop/` or `apps/server/`. |
-| `pnpm dev:desktop`              | Start the desktop app with hot reload                                                                         |
-| `pnpm dev:server`               | Start the server in watch mode                                                                                |
-| `pnpm storybook`                | Start Storybook (`@sams/ui`) on port 6006                                                                     |
-| `pnpm lint` / `pnpm typecheck`  | Lint / typecheck every package                                                                                |
-| `pnpm format`                   | Prettier over the whole repo                                                                                  |
-| `pnpm --filter <name> <script>` | Run a script in one package, for example `pnpm --filter @sams/desktop dev`                                    |
+| Command                         | What it does                                                                                    |
+| ------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `pnpm install`                  | Install every package in the workspace                                                          |
+| `pnpm build`                    | Run `build` in each package under `packages/` only. It does not build anything in `apps/`.      |
+| `pnpm dev`                      | Run `dev` in each package under `packages/` in parallel. It does not start anything in `apps/`. |
+| `pnpm dev:desktop`              | Start the desktop app with hot reload                                                           |
+| `pnpm dev:server`               | Start the server in watch mode                                                                  |
+| `pnpm dev:platform`             | Start the platform API in watch mode                                                            |
+| `pnpm dev:web`                  | Start the website dev server                                                                    |
+| `pnpm storybook`                | Start Storybook (`@sams/ui`) on port 6006                                                       |
+| `pnpm lint` / `pnpm typecheck`  | Lint / typecheck every package                                                                  |
+| `pnpm format`                   | Prettier over the whole repo                                                                    |
+| `pnpm --filter <name> <script>` | Run a script in one package, for example `pnpm --filter @sams/desktop dev`                      |
 
 From `apps/desktop/` (package name `@sams/desktop`, or use `pnpm --filter @sams/desktop`):
 
@@ -67,8 +71,18 @@ From `apps/server/` (package name `@sams/server`, or use `pnpm --filter @sams/se
 
 | Command                       | What it does                                          |
 | ----------------------------- | ----------------------------------------------------- |
-| `pnpm start:dev`              | Start the server in watch mode (port 3000, or `PORT`) |
+| `pnpm start:dev`              | Start the server in watch mode (port 8000, or `PORT`) |
 | `pnpm test` / `pnpm test:e2e` | Jest unit tests / end-to-end tests                    |
+
+From `apps/platform/` (package name `@sams/platform`, or use `pnpm --filter @sams/platform`): the same scripts as `apps/server/`, with `start:dev` on port 8001.
+
+From `apps/web/` (package name `@sams/web`, or use `pnpm --filter @sams/web`):
+
+| Command      | What it does                 |
+| ------------ | ---------------------------- |
+| `pnpm dev`   | Start the Next.js dev server |
+| `pnpm build` | Production build             |
+| `pnpm lint`  | ESLint                       |
 
 ## Glossary
 
@@ -115,7 +129,7 @@ Not decided. This is the current direction from Notion, and the setup is still b
 - **Tailwind** — v4 through `@tailwindcss/vite`, loaded in `apps/desktop/src/renderer/src/assets/main.css`. → [tailwind](../docs/app/tailwind.md)
 - **State** — Zustand. Installed, not used yet. → [state](../docs/app/state.md)
 - **Routing** — TanStack Router. Installed, not used yet. → [routing](../docs/app/routing.md)
-- **Packaging** — electron-builder, configured in `apps/desktop/electron-builder.yml`. Still has starter placeholders such as `com.electron.app` and `example.com`. → [packaging](../docs/app/packaging.md)
+- **Packaging** — electron-builder, configured in `apps/desktop/electron-builder.yml`. appId is `com.altaofficial.sams` (permanent once users install the app); publishes to GitHub Releases. → [packaging](../docs/app/packaging.md)
 
 ### Backend (server) — `docs/backend/`
 
@@ -123,6 +137,8 @@ Not decided. This is the current direction from Notion, and the setup is still b
 - **Runtime** — in the draft, the headless part of the server that triggers and runs agents. Needs no graphics. → [runtime](../docs/backend/runtime.md)
 - **API** — in the draft, the API every client talks to, treated as a public surface. Not designed yet. → [api](../docs/backend/api.md)
 - **Nest basics** — modules wire controllers (routes) to services (logic). See `apps/server/src/app.module.ts`. → [nest-basics](../docs/backend/nest-basics.md)
+- **Platform API** — `apps/platform/`. A centrally operated NestJS 11 service, planned to host the extension marketplace. Deployed continuously, not versioned with SAMS. Same setup as `apps/server/`. → [platform](../docs/backend/platform.md)
+- **Website** — `apps/web/`. Next.js site, deployed continuously, not versioned with SAMS. → [web](../docs/backend/web.md)
 
 ### Assets — `docs/assets/`
 
@@ -135,4 +151,4 @@ Not decided. This is the current direction from Notion, and the setup is still b
 - **electron-vite** — builds the main, preload and renderer code from `apps/desktop/electron.vite.config.ts`. → [electron-vite](../docs/tooling/electron-vite.md)
 - **Storybook** — `packages/ui/.storybook/` (package `@sams/ui`, run with `pnpm storybook` from the root). A component workshop using `@storybook/react-vite`. The stories in `packages/ui/stories/` are starter examples. Tailwind is not wired into Storybook yet. → [storybook](../docs/tooling/storybook.md)
 - **Vitest** — `packages/ui/vitest.config.ts` runs each story as a test in headless Chromium through Playwright. → [vitest](../docs/tooling/vitest.md)
-- **Code style** — ESLint and Prettier in each package. `apps/desktop/`: single quotes, semicolons, 100-character lines, no trailing commas. `apps/server/`: single quotes, trailing commas. → [code-style](../docs/tooling/code-style.md)
+- **Code style** — ESLint in each package; one Prettier config at the root (`.prettierrc.yaml`): double quotes, semicolons, 100-character lines, trailing commas. → [code-style](../docs/tooling/code-style.md)
