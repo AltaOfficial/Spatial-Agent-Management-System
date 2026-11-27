@@ -35,4 +35,4 @@ Notion says this may be fine (it is arguably the elegant part of the idea), but 
 
 ## In code
 
-Not built yet. The test scene in `app/src/renderer/src/App.tsx` (a grid and a sphere) is a stand-in.
+Not built yet. The test scene in `apps/desktop/src/renderer/src/App.tsx` (a grid and a sphere) is a stand-in.

@@ -40,4 +40,4 @@ Permissions are assigned by object.
 
 ## In code
 
-Not built yet. The clickable sphere in `app/src/renderer/src/App.tsx` is the closest stand-in.
+Not built yet. The clickable sphere in `apps/desktop/src/renderer/src/App.tsx` is the closest stand-in.
