@@ -27,4 +27,4 @@ The top-level container. One deployment, one install, for one org or one person.
 
 ## In code
 
-Not built yet. The "New Building" button in `app/src/renderer/src/components/RandomComponent.tsx` is a placeholder with no behaviour.
+Not built yet. The "New Building" button in `apps/desktop/src/renderer/src/components/RandomComponent.tsx` is a placeholder with no behaviour.

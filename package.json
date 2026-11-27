@@ -6,8 +6,8 @@
   "private": true,
   "license": "AGPL-3.0-only",
   "scripts": {
-    "dev:app": "pnpm --filter sams run dev",
-    "dev:backend": "pnpm --filter backend run start:dev",
+    "dev:desktop": "pnpm --filter @sams/desktop run dev",
+    "dev:server": "pnpm --filter @sams/server run start:dev",
     "storybook": "pnpm --filter @sams/ui run storybook",
     "build": "pnpm -r --filter='./packages/*' run build",
     "format": "prettier --write .",

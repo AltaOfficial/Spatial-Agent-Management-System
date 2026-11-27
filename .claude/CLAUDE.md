@@ -18,14 +18,15 @@ This file is the top of a map. Read the overview, then follow a glossary link on
 
 Early scaffold. The pieces exist but are not connected yet.
 
-| Folder     | What's there now                                                                                                                                                                  |
-| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `app/`     | Electron desktop client showing a test 3D scene: an infinite grid, a sphere that changes colour when clicked, an orbit camera, and a "New Building" button that does nothing yet. |
-| `backend/` | NestJS starter. One `GET /` route that returns "Hello World!" on port 3000. The app does not call it yet.                                                                         |
-| `blender/` | Reserved for 3D source models. Empty.                                                                                                                                             |
-| `docs/`    | The deeper levels of this map. Empty so far.                                                                                                                                      |
+| Folder          | What's there now                                                                                                                                                                  |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `apps/desktop/` | Electron desktop client showing a test 3D scene: an infinite grid, a sphere that changes colour when clicked, an orbit camera, and a "New Building" button that does nothing yet. |
+| `apps/server/`  | NestJS starter. One `GET /` route that returns "Hello World!" on port 3000. The app does not call it yet.                                                                         |
+| `packages/ui/`  | Storybook workshop (`@sams/ui`) for overlay UI components. Starter stories only.                                                                                                  |
+| `blender/`      | Reserved for 3D source models. Empty.                                                                                                                                             |
+| `docs/`         | The deeper levels of this map. Empty so far.                                                                                                                                      |
 
-The repo is a pnpm workspace. The root `package.json` is private and only holds workspace scripts, and `pnpm-workspace.yaml` lists the packages: `app/`, `backend/` and everything in `packages/` (`packages/shared/` is a placeholder with no `package.json` yet). Install once from the root with `pnpm install`, which writes the single root `pnpm-lock.yaml`. `app/` and `backend/` still have leftover `package-lock.json` files from before the move. They are stale, so don't use npm and don't update them.
+The repo is a pnpm workspace. The root `package.json` is private and only holds workspace scripts, and `pnpm-workspace.yaml` lists the packages: everything in `apps/` (`apps/desktop/`, `apps/server/`) and everything in `packages/` (`packages/shared/` is a placeholder with no `package.json` yet). Install once from the root with `pnpm install`, which writes the single root `pnpm-lock.yaml`. Don't use npm.
 
 ## Commands
 
@@ -33,26 +34,36 @@ Use pnpm, not npm.
 
 From the repo root:
 
-| Command                         | What it does                                                                                     |
-| ------------------------------- | ------------------------------------------------------------------------------------------------ |
-| `pnpm install`                  | Install every package in the workspace                                                           |
-| `pnpm build`                    | Run `build` in each package under `packages/` only. It does not build `app/` or `backend/`.      |
-| `pnpm dev`                      | Run `dev` in each package under `packages/` in parallel. It does not start `app/` or `backend/`. |
-| `pnpm --filter <name> <script>` | Run a script in one package, for example `pnpm --filter sams dev`                                |
+| Command                         | What it does                                                                                                  |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `pnpm install`                  | Install every package in the workspace                                                                        |
+| `pnpm build`                    | Run `build` in each package under `packages/` only. It does not build `apps/desktop/` or `apps/server/`.      |
+| `pnpm dev`                      | Run `dev` in each package under `packages/` in parallel. It does not start `apps/desktop/` or `apps/server/`. |
+| `pnpm dev:desktop`              | Start the desktop app with hot reload                                                                         |
+| `pnpm dev:server`               | Start the server in watch mode                                                                                |
+| `pnpm storybook`                | Start Storybook (`@sams/ui`) on port 6006                                                                     |
+| `pnpm lint` / `pnpm typecheck`  | Lint / typecheck every package                                                                                |
+| `pnpm format`                   | Prettier over the whole repo                                                                                  |
+| `pnpm --filter <name> <script>` | Run a script in one package, for example `pnpm --filter @sams/desktop dev`                                    |
 
-From `app/` (package name `sams`, or use `pnpm --filter sams`):
+From `apps/desktop/` (package name `@sams/desktop`, or use `pnpm --filter @sams/desktop`):
 
-| Command                     | What it does                                   |
-| --------------------------- | ---------------------------------------------- |
-| `pnpm dev`                  | Start the app with hot reload                  |
-| `pnpm build`                | Typecheck, then build                          |
-| `pnpm build:win`            | Build a Windows installer                      |
-| `pnpm typecheck`            | Typecheck the main/preload and renderer code   |
-| `pnpm lint` / `pnpm format` | ESLint / Prettier                              |
-| `pnpm storybook`            | Start Storybook on port 6006                   |
-| `pnpm exec vitest`          | Run every story as a test in headless Chromium |
+| Command                     | What it does                                 |
+| --------------------------- | -------------------------------------------- |
+| `pnpm dev`                  | Start the app with hot reload                |
+| `pnpm build`                | Typecheck, then build                        |
+| `pnpm build:win`            | Build a Windows installer                    |
+| `pnpm typecheck`            | Typecheck the main/preload and renderer code |
+| `pnpm lint` / `pnpm format` | ESLint / Prettier                            |
 
-From `backend/` (package name `backend`, or use `pnpm --filter backend`):
+From `packages/ui/` (package name `@sams/ui`, or use `pnpm --filter @sams/ui`):
+
+| Command            | What it does                                   |
+| ------------------ | ---------------------------------------------- |
+| `pnpm storybook`   | Start Storybook on port 6006                   |
+| `pnpm exec vitest` | Run every story as a test in headless Chromium |
+
+From `apps/server/` (package name `@sams/server`, or use `pnpm --filter @sams/server`):
 
 | Command                       | What it does                                          |
 | ----------------------------- | ----------------------------------------------------- |
@@ -92,26 +103,26 @@ Not decided. This is the current direction from Notion, and the setup is still b
 
 ### App (client) — `docs/app/`
 
-- **App** — `app/`. An Electron desktop shell around a React 19 + TypeScript web client. → [app](../docs/app/app.md)
-- **Main process** — `app/src/main/index.ts`. The Node side of Electron: creates the window and handles IPC. → [main-process](../docs/app/main-process.md)
-- **Preload** — `app/src/preload/`. The bridge that exposes `window.electron` and `window.api` (empty for now) to the renderer. → [preload](../docs/app/preload.md)
-- **Renderer** — `app/src/renderer/`. The React UI inside the window. Entry is `main.tsx` → `App.tsx`. Import from it with the `@renderer` alias. → [renderer](../docs/app/renderer.md)
+- **App** — `apps/desktop/`. An Electron desktop shell around a React 19 + TypeScript web client. → [app](../docs/app/app.md)
+- **Main process** — `apps/desktop/src/main/index.ts`. The Node side of Electron: creates the window and handles IPC. → [main-process](../docs/app/main-process.md)
+- **Preload** — `apps/desktop/src/preload/`. The bridge that exposes `window.electron` and `window.api` (empty for now) to the renderer. → [preload](../docs/app/preload.md)
+- **Renderer** — `apps/desktop/src/renderer/`. The React UI inside the window. Entry is `main.tsx` → `App.tsx`. Import from it with the `@renderer` alias. → [renderer](../docs/app/renderer.md)
 - **IPC** — messages between the renderer and the main process. Only a test `ping` channel exists. → [ipc](../docs/app/ipc.md)
 - **Scene** — the R3F `<Canvas>` in `App.tsx`. A test scene now; will become the building view. → [scene](../docs/app/scene.md)
 - **React Three Fiber (R3F)** — a React renderer for three.js. Drei adds helpers such as `Grid` and `OrbitControls`. → [r3f](../docs/app/r3f.md)
-- **Overlay UI** — HTML components positioned on top of the canvas, in `app/src/renderer/src/components/`. → [overlay-ui](../docs/app/overlay-ui.md)
+- **Overlay UI** — HTML components positioned on top of the canvas, in `apps/desktop/src/renderer/src/components/`. → [overlay-ui](../docs/app/overlay-ui.md)
 - **Client shell** — planned: navigation between buildings, an inspector panel and a chat panel. Not built yet. → [client-shell](../docs/app/client-shell.md)
-- **Tailwind** — v4 through `@tailwindcss/vite`, loaded in `app/src/renderer/src/assets/main.css`. → [tailwind](../docs/app/tailwind.md)
+- **Tailwind** — v4 through `@tailwindcss/vite`, loaded in `apps/desktop/src/renderer/src/assets/main.css`. → [tailwind](../docs/app/tailwind.md)
 - **State** — Zustand. Installed, not used yet. → [state](../docs/app/state.md)
 - **Routing** — TanStack Router. Installed, not used yet. → [routing](../docs/app/routing.md)
-- **Packaging** — electron-builder, configured in `app/electron-builder.yml`. Still has starter placeholders such as `com.electron.app` and `example.com`. → [packaging](../docs/app/packaging.md)
+- **Packaging** — electron-builder, configured in `apps/desktop/electron-builder.yml`. Still has starter placeholders such as `com.electron.app` and `example.com`. → [packaging](../docs/app/packaging.md)
 
 ### Backend (server) — `docs/backend/`
 
-- **Server** — `backend/`, currently the NestJS 11 starter. In the architecture draft, the server owns agent execution, MCP connections, the permission engine, the activity log, storage, secrets and the API. → [server](../docs/backend/server.md)
+- **Server** — `apps/server/`, currently the NestJS 11 starter. In the architecture draft, the server owns agent execution, MCP connections, the permission engine, the activity log, storage, secrets and the API. → [server](../docs/backend/server.md)
 - **Runtime** — in the draft, the headless part of the server that triggers and runs agents. Needs no graphics. → [runtime](../docs/backend/runtime.md)
 - **API** — in the draft, the API every client talks to, treated as a public surface. Not designed yet. → [api](../docs/backend/api.md)
-- **Nest basics** — modules wire controllers (routes) to services (logic). See `backend/src/app.module.ts`. → [nest-basics](../docs/backend/nest-basics.md)
+- **Nest basics** — modules wire controllers (routes) to services (logic). See `apps/server/src/app.module.ts`. → [nest-basics](../docs/backend/nest-basics.md)
 
 ### Assets — `docs/assets/`
 
@@ -121,7 +132,7 @@ Not decided. This is the current direction from Notion, and the setup is still b
 
 ### Tooling — `docs/tooling/`
 
-- **electron-vite** — builds the main, preload and renderer code from `app/electron.vite.config.ts`. → [electron-vite](../docs/tooling/electron-vite.md)
-- **Storybook** — `app/.storybook/`. A component workshop using `@storybook/tanstack-react`. The stories in `app/src/stories/` are starter examples. Tailwind is not wired into Storybook yet. → [storybook](../docs/tooling/storybook.md)
-- **Vitest** — `app/vitest.config.ts` runs each story as a test in headless Chromium through Playwright. → [vitest](../docs/tooling/vitest.md)
-- **Code style** — ESLint and Prettier in each package. `app/`: single quotes, semicolons, 100-character lines, no trailing commas. `backend/`: single quotes, trailing commas. → [code-style](../docs/tooling/code-style.md)
+- **electron-vite** — builds the main, preload and renderer code from `apps/desktop/electron.vite.config.ts`. → [electron-vite](../docs/tooling/electron-vite.md)
+- **Storybook** — `packages/ui/.storybook/` (package `@sams/ui`, run with `pnpm storybook` from the root). A component workshop using `@storybook/react-vite`. The stories in `packages/ui/stories/` are starter examples. Tailwind is not wired into Storybook yet. → [storybook](../docs/tooling/storybook.md)
+- **Vitest** — `packages/ui/vitest.config.ts` runs each story as a test in headless Chromium through Playwright. → [vitest](../docs/tooling/vitest.md)
+- **Code style** — ESLint and Prettier in each package. `apps/desktop/`: single quotes, semicolons, 100-character lines, no trailing commas. `apps/server/`: single quotes, trailing commas. → [code-style](../docs/tooling/code-style.md)
