@@ -1,11 +1,13 @@
 {
   "name": "@sams/desktop",
   "productName": "sams",
-  "version": "1.0.0",
-  "description": "An Electron application with React and TypeScript",
+  "version": "0.0.1",
+  "description": "SAMS desktop client",
   "main": "./out/main/index.js",
-  "author": "example.com",
-  "homepage": "https://electron-vite.org",
+  "author": "AltaOfficial",
+  "private": true,
+  "license": "AGPL-3.0-only",
+  "homepage": "https://github.com/AltaOfficial/Spatial-Agent-Management-System",
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint --cache .",
