@@ -8,6 +8,7 @@
   "scripts": {
     "dev:desktop": "pnpm --filter @sams/desktop run dev",
     "dev:server": "pnpm --filter @sams/server run start:dev",
+    "dev:platform": "pnpm --filter @sams/platform run start:dev",
     "storybook": "pnpm --filter @sams/ui run storybook",
     "build": "pnpm -r --filter='./packages/*' run build",
     "format": "prettier --write .",
