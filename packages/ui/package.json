@@ -1,9 +1,11 @@
 {
   "name": "@sams/ui",
-  "version": "0.0.1",
+  "productName": "ui",
+  "version": "0.0.0",
   "description": "",
   "author": "AltaOfficial",
   "private": true,
+  "license": "AGPL-3.0-only",
   "scripts": {
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
